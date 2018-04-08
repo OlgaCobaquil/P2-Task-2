@@ -3,7 +3,7 @@ import re
 #Leer el archivo de entrada
 def abrir_archivo():
     salida = []
-    f = open("Input.txt", "r")
+    f = open("dataset1.txt", "r")
     lineas = [line for line in f]
     for i in range(len(lineas)):
         fila = []
