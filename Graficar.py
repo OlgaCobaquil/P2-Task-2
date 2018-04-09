@@ -5,13 +5,16 @@ from scipy.stats import multivariate_normal
 lista_colores = ['lightcoral', 'yellowgreen', 'darkorange', 'turquoise', 'gold','mediumorchid', 'mediumvioletred']
 puntos = []
 
+
 #dibujar los puntos del archivo de entrada
 def pintar_puntos(clusters, cant_cluster):
+
     plt.plot()
     puntos_nuevos = [[] for i in range(cant_cluster)]
+    itera = 0
     for i, c in enumerate(clusters):
         x, y = zip(*[p.coordenadas for p in c.puntos])
-
+        itera = itera + 1
         for p in c.puntos:
             a = p.coordenadas[0]
             b = p.coordenadas[1]
@@ -22,6 +25,34 @@ def pintar_puntos(clusters, cant_cluster):
     puntos.append(puntos_nuevos)
     #puntos = fnc.abrir_archivo_array()
     plt.show()
+
+
+
+
+def encontrar_punto(x,y):
+    encuentra_x = False
+    encuentra_y = False
+    num_cluster = 0
+
+    for i in range (len(puntos)):
+        for j in range(0,len(puntos[0][i])):
+            if (j%2 == 0):
+                #x
+                if (round(puntos[0][i][j], 2) == x):
+                    encuentra_x = True
+                    num_cluster = i
+            else:
+                if (round(puntos[0][i][j], 2) == y):
+                    num_cluster = i
+                    encuentra_y = True
+    if (encuentra_x and encuentra_y):
+            print "El punto (" + str(x) + ", " + str(y) + ") pertenece al cluster " + str(
+                num_cluster + 1) + ", Color " + str(
+                lista_colores[num_cluster])
+    else:
+            print "El punto (" + str(x) + ", " + str(y) + ") no pertenece a ningun cluster"
+
+
 
 #dibujo de gausianos
 def dibujar_gaus():

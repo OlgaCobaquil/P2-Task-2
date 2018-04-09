@@ -99,9 +99,9 @@ def expectation_maximization( data, cant_clusters, iteraciones):
         limite_iteraciones += 1
         puntos_actualizados = [[] for i in range(cant_clusters)]
 
-        print '\n Iteracion %d' % limite_iteraciones
+        print '\nIteracion %d' % limite_iteraciones
         for i, c in enumerate(clusters):
-            print '\tCluster %d: Probabilidad = %s; Media = %s; Std = %s; Total Puntos Actuales = %s' % (
+            print 'Cluster %d:  \n \tProbabilidad = %s; \n \tMedia = %s; \n \tDesv. Estandar = %s; \n \tTotal Puntos Actuales = %s' % (
                 i + 1, str(c.pi), str(c.mean), str(c.desv_estandar), str(len(c.puntos)))
         gr.pintar_puntos(clusters, cant_clusters)
 
