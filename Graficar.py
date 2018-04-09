@@ -2,11 +2,25 @@ import numpy as np
 import matplotlib.pyplot as plt
 import Funciones as fnc
 from scipy.stats import multivariate_normal
+lista_colores = ['lightcoral', 'yellowgreen', 'darkorange', 'turquoise', 'gold','mediumorchid', 'mediumvioletred']
+puntos = []
 
 #dibujar los puntos del archivo de entrada
-def pintar_puntos():
-    puntos = fnc.abrir_archivo_array()
-    plt.plot(*zip(*puntos), marker='o', color='g', ls='')
+def pintar_puntos(clusters, cant_cluster):
+    plt.plot()
+    puntos_nuevos = [[] for i in range(cant_cluster)]
+    for i, c in enumerate(clusters):
+        x, y = zip(*[p.coordenadas for p in c.puntos])
+
+        for p in c.puntos:
+            a = p.coordenadas[0]
+            b = p.coordenadas[1]
+            puntos_nuevos[i].append(a)
+            puntos_nuevos[i].append(b)
+        plt.plot(x, y, marker='o', color=lista_colores[i], ls='')
+        plt.plot (c.mean[0], c.mean[1], 'x', color = lista_colores[i], markeredgecolor = 'k', markersize = 8)
+    puntos.append(puntos_nuevos)
+    #puntos = fnc.abrir_archivo_array()
     plt.show()
 
 #dibujo de gausianos

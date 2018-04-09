@@ -3,6 +3,7 @@ import numpy as np
 import random
 import math
 from Cluster import Cluster
+import Graficar as gr
 
 
 #Leer el archivo de entrada
@@ -102,7 +103,7 @@ def expectation_maximization( data, cant_clusters, iteraciones):
         for i, c in enumerate(clusters):
             print '\tCluster %d: Probabilidad = %s; Media = %s; Std = %s; Total Puntos Actuales = %s' % (
                 i + 1, str(c.pi), str(c.mean), str(c.desv_estandar), str(len(c.puntos)))
-
+        gr.pintar_puntos(clusters, cant_clusters)
 
 
 

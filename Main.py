@@ -3,7 +3,7 @@ import Funciones as fnc
 import Graficar as gr
 
 #cantidad de iteraciones
-iteraciones = 100
+iteraciones = 1000
 #lectura del archivo, retorno de lista de listas [[],[]]
 #ingreso = fnc.abrir_archivo_array()
 #ingreso = fnc.abrir_archivo()
@@ -12,7 +12,11 @@ dataset = "dataset1.txt"
 
 cant_gausianos = input("Ingrese la cantidad de Gaussianos: ")
 fnc.expectation_maximization(dataset, cant_gausianos, iteraciones)
-
+print "+----------------------------------------------------+"
+print "         Punto perteneciente a un gaussiano "
+print "+----------------------------------------------------+ \n"
+x = float(input("    -> Coordenada x del punto: "))
+y = float(input("    -> Coordenada y del punto: "))
 
 #gr.pintar_puntos()
 x,y = gr.generateGrid(10,-10,10,-10, 0.025)
