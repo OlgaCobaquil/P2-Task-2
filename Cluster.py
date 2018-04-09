@@ -14,6 +14,18 @@ class Cluster:
         self.pi = len(self.puntos) / float(puntos_totales)
         self.converge = False
 
+    #evaluacion si converge un cluster
+    def actualizar(self, puntos, puntos_totales):
+        prev_media = self.mean
+        self.puntos = puntos
+        coordenadas = [p.coordenadas for p in self.puntos]
+        self.mean = np.mean(coordenadas, axis=0)
+        self.desv_estandar = np.std(coordenadas, axis=0, ddof=0)
+        self.pi = len(puntos)/ float(puntos_totales)
+        print "prob updateada ", self.pi
+        self.converge = np.array_equal(prev_media, self.mean)
+
+
     def __repr__(self):
         cluster = 'Media: ' + str(self.mean)
         for p in self.puntos:

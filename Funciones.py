@@ -32,6 +32,8 @@ def abrir_archivo_array():
     with open("dataset1.txt", 'rt') as reader:
         for punto in reader:
             puntos.append(Punto(np.asarray(map(float, punto.split(",")))))
+    print puntos
+    print len(puntos)
     return puntos
 
 """
@@ -81,8 +83,30 @@ def expectation_maximization(datos, cant_clusters, iteraciones):
     #While (los gaussianos se mueven o cambian de forma, o se alcanza el limite de iteraciones):
     while (not converge)and (limite_iteraciones <= iteraciones):
         for p in inicial:
+            #paso e
             i_cluster = cluster_prob_mayor(clusters, p) #mayor probabilidad
             puntos_actualizados[i_cluster].append(p)
+
+        # paso m
+        for i, c in enumerate(clusters):
+            c.actualizar(puntos_actualizados[i], len(inicial))
+
+        #ver por probabilidad si converge
+        converge = [c.converge for c in clusters].count(False) == 0
+
+        #guardar puntos en clusters
+        limite_iteraciones += 1
+        puntos_actualizados = [[] for i in range(cant_clusters)]
+
+        print '\n Iteracion %d' % limite_iteraciones
+        for i, c in enumerate(clusters):
+            print '\tCluster %d: Probabilidad = %s; Media = %s; Std = %s; Total Puntos Actuales = %s' % (
+                i + 1, str(c.pi), str(c.mean), str(c.desv_estandar), str(len(c.puntos)))
+
+
+
+
+
 
 
 
