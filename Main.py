@@ -5,20 +5,13 @@ import Graficar as gr
 #cantidad de iteraciones
 iteraciones = 100
 #lectura del archivo, retorno de lista de listas [[],[]]
-ingreso = fnc.abrir_archivo_array()
+#ingreso = fnc.abrir_archivo_array()
 #ingreso = fnc.abrir_archivo()
-
+dataset = "dataset1.txt"
 #inicio del programa
-ejecutar = True
 
-
-while(ejecutar):
-    cant_gausianos = input("Ingrese la cantidad de Gaussianos: ")
-    fnc.expectation_maximization(ingreso, cant_gausianos, iteraciones)
-    op = raw_input("Desea continuar? (y/n) ")
-    if(op == "n"):
-        ejecutar = False
-
+cant_gausianos = input("Ingrese la cantidad de Gaussianos: ")
+fnc.expectation_maximization(dataset, cant_gausianos, iteraciones)
 
 
 #gr.pintar_puntos()

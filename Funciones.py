@@ -27,13 +27,11 @@ def abrir_archivo():
     f.close()
     return salida
 
-def abrir_archivo_array():
+def abrir_archivo_array(data):
     puntos = list()
-    with open("dataset1.txt", 'rt') as reader:
+    with open(data, 'rt') as reader:
         for punto in reader:
             puntos.append(Punto(np.asarray(map(float, punto.split(",")))))
-    print puntos
-    print len(puntos)
     return puntos
 
 """
@@ -47,7 +45,7 @@ def prob_punto_cluster(punto, cluster):
     desv = cluster.desv_estandar
     prob = 1.0
 
-    for i in range(punto.dimension):
+    for i in range(2):
         prob *= (math.exp(-0.5 * (
                 math.pow((punto.coordenadas[i] - media[i]), 2) /
                 math.pow(desv[i], 2))) / desv[i])
@@ -57,21 +55,22 @@ def prob_punto_cluster(punto, cluster):
 """
     Cluster con mayor probablidad
 """
-def cluster_prob_mayor(clusters, point):
+def cluster_prob_mayor(clusters, punto):
 
     expectation = np.zeros(len(clusters))
     for i, c in enumerate(clusters):
 
-        expectation[i] = prob_punto_cluster(point, c)
+        expectation[i] = prob_punto_cluster(punto, c)
 
     return np.argmax(expectation) #devuelve el indice maximo
 
-def expectation_maximization(datos, cant_clusters, iteraciones):
+def expectation_maximization( data, cant_clusters, iteraciones):
+    puntos = abrir_archivo_array(data)
     """
      Inicializacion
      1. eleccion aleatoria de los puntos iniciales
     """
-    inicial = random.sample(datos, cant_clusters)
+    inicial = random.sample(puntos, cant_clusters)
 
     #cant_clusters iniciales, generacion de kpi y demas
     clusters = [Cluster([p], len(inicial)) for p in inicial]
@@ -82,14 +81,15 @@ def expectation_maximization(datos, cant_clusters, iteraciones):
     limite_iteraciones = 0
     #While (los gaussianos se mueven o cambian de forma, o se alcanza el limite de iteraciones):
     while (not converge)and (limite_iteraciones <= iteraciones):
-        for p in inicial:
+        for p in puntos:
             #paso e
+
             i_cluster = cluster_prob_mayor(clusters, p) #mayor probabilidad
             puntos_actualizados[i_cluster].append(p)
 
         # paso m
         for i, c in enumerate(clusters):
-            c.actualizar(puntos_actualizados[i], len(inicial))
+            c.actualizar(puntos_actualizados[i], len(puntos))
 
         #ver por probabilidad si converge
         converge = [c.converge for c in clusters].count(False) == 0
