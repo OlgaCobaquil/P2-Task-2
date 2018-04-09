@@ -5,7 +5,7 @@ from scipy.stats import multivariate_normal
 
 #dibujar los puntos del archivo de entrada
 def pintar_puntos():
-    puntos = fnc.abrir_archivo()
+    puntos = fnc.abrir_archivo_array()
     plt.plot(*zip(*puntos), marker='o', color='g', ls='')
     plt.show()
 

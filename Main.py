@@ -1,13 +1,12 @@
 """ Proyecto 2 Task 2 Inteligencia artificial """
 import Funciones as fnc
 import Graficar as gr
-import random
-import Punto as pt
-from Cluster import Cluster
 
-
+#cantidad de iteraciones
+iteraciones = 100
 #lectura del archivo, retorno de lista de listas [[],[]]
-ingreso = fnc.abrir_archivo()
+ingreso = fnc.abrir_archivo_array()
+#ingreso = fnc.abrir_archivo()
 
 #inicio del programa
 ejecutar = True
@@ -15,15 +14,14 @@ ejecutar = True
 
 while(ejecutar):
     cant_gausianos = input("Ingrese la cantidad de Gaussianos: ")
-    inicial = random.sample(ingreso, cant_gausianos)
-    clusters = [Cluster([p], len(inicial)) for p in inicial]
+    fnc.expectation_maximization(ingreso, cant_gausianos, iteraciones)
     op = raw_input("Desea continuar? (y/n) ")
     if(op == "n"):
         ejecutar = False
 
 
 
-gr.pintar_puntos()
+#gr.pintar_puntos()
 x,y = gr.generateGrid(10,-10,10,-10, 0.025)
 #mu array de dos puntos
 #sigma matriz de 2x2

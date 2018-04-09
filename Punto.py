@@ -5,3 +5,6 @@ class Punto:
     def __init__(self, coordenadas):
         self.coordenadas = coordenadas
         self.dimension = len(coordenadas)
+
+    def __repr__(self):
+        return str(self.coordenadas)
