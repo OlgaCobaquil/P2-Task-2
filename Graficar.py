@@ -1,14 +1,18 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import imageio
+from matplotlib.patches import Ellipse
 import Funciones as fnc
 from scipy.stats import multivariate_normal
 lista_colores = ['lightcoral', 'yellowgreen', 'darkorange', 'turquoise', 'gold','mediumorchid', 'mediumvioletred']
 puntos = []
-
+imagenes = []
 
 #dibujar los puntos del archivo de entrada
 def pintar_puntos(clusters, cant_cluster):
-
+    x1, y1 = generateGrid(10, -10, 10, -10, 0.025)
+    mu1 = []
+    desv1 = [[0, 0], [0, 0]]
     plt.plot()
     puntos_nuevos = [[] for i in range(cant_cluster)]
     itera = 0
@@ -20,39 +24,24 @@ def pintar_puntos(clusters, cant_cluster):
             b = p.coordenadas[1]
             puntos_nuevos[i].append(a)
             puntos_nuevos[i].append(b)
-        plt.plot(x, y, marker='o', color=lista_colores[i], ls='')
-        plt.plot (c.mean[0], c.mean[1], 'x', color = lista_colores[i], markeredgecolor = 'k', markersize = 8)
+        plt.plot(x, y, marker='.', color=lista_colores[i], ls='', markersize = 2)
+        plt.plot (c.mean[0], c.mean[1], 'x', color = lista_colores[i], markeredgecolor = 'k', markersize = 4)
+        mu1.append(c.mean[0])
+        mu1.append(c.mean[1])
+
+        desv1[0].append(c.desv_estandar[0])
+        desv1[0].append(0)
+        desv1[1].append(0)
+        desv1[1].append(c.desv_estandar[1])
+        #plot_ellipse(c.mean, [p.coordenadas for p in c.puntos], 0.5, color = 'k')
+        # puntos = fnc.abrir_archivo_array()
+        drawContour(x1, y1, [mu1[0], mu1[1]], [[desv1[0][2], 0.2], [0.2, desv1[1][3]]], 10, color='k')
+        #drawContour(x1, y1, [mu1[0], mu1[1]], [[desv1[0][2], 0.2], [0.2, desv1[1][3]]], 10, color='k')
+    showImage("salida.png", 200)
+    imagenes.append(imageio.imread('salida.png'))
     puntos.append(puntos_nuevos)
-    #puntos = fnc.abrir_archivo_array()
+    imageio.mimsave('salida.gif', imagenes, duration=0.3)
     plt.show()
-
-
-
-
-def encontrar_punto(x,y):
-    encuentra_x = False
-    encuentra_y = False
-    num_cluster = 0
-
-    for i in range (len(puntos)):
-        for j in range(0,len(puntos[0][i])):
-            if (j%2 == 0):
-                #x
-                if (round(puntos[0][i][j], 2) == x):
-                    encuentra_x = True
-                    num_cluster = i
-            else:
-                if (round(puntos[0][i][j], 2) == y):
-                    num_cluster = i
-                    encuentra_y = True
-    if (encuentra_x and encuentra_y):
-            print "El punto (" + str(x) + ", " + str(y) + ") pertenece al cluster " + str(
-                num_cluster + 1) + ", Color " + str(
-                lista_colores[num_cluster])
-    else:
-            print "El punto (" + str(x) + ", " + str(y) + ") no pertenece a ningun cluster"
-
-
 
 #dibujo de gausianos
 def dibujar_gaus():
@@ -80,3 +69,5 @@ def showImage(name, dpi):
     fig1 = plt.gcf()
     plt.show()
     fig1.savefig(name, bbox_inches='tight', dpi=dpi)
+
+

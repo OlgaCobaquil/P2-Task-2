@@ -27,11 +27,11 @@ class Cluster:
         print "prob updateada ", self.pi
         self.converge = np.array_equal(prev_media, self.mean)
 
-
+"""
     def __repr__(self):
         cluster = 'Media: ' + str(self.mean) + '\nDimension: ' + str(
             self.dimension)
         for p in self.puntos:
             cluster += '\n' + str(p)
 
-        return cluster + '\n\n'
+        return cluster + '\n\n'"""

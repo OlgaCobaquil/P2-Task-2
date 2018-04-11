@@ -4,8 +4,9 @@ import random
 import math
 from Cluster import Cluster
 import Graficar as gr
-
-
+import imageio
+imagenes = []
+lista_colores = ['lightcoral', 'yellowgreen', 'darkorange', 'turquoise', 'gold','mediumorchid', 'mediumvioletred']
 #Leer el archivo de entrada
 def abrir_archivo():
     salida = []
@@ -50,6 +51,7 @@ def prob_punto_cluster(punto, cluster):
         prob *= (math.exp(-0.5 * (
                 math.pow((punto.coordenadas[i] - media[i]), 2) /
                 math.pow(desv[i], 2))) / desv[i])
+
     #normalizar eij/R
     return cluster.pi * prob
 
@@ -66,6 +68,7 @@ def cluster_prob_mayor(clusters, punto):
     return np.argmax(expectation) #devuelve el indice maximo
 
 def expectation_maximization( data, cant_clusters, iteraciones):
+
     puntos = abrir_archivo_array(data)
     """
      Inicializacion
@@ -101,10 +104,14 @@ def expectation_maximization( data, cant_clusters, iteraciones):
 
         print '\nIteracion %d' % limite_iteraciones
         for i, c in enumerate(clusters):
+
             print 'Cluster %d:  \n \tProbabilidad = %s; \n \tMedia = %s; \n \tDesv. Estandar = %s; \n \tTotal Puntos Actuales = %s' % (
                 i + 1, str(c.pi), str(c.mean), str(c.desv_estandar), str(len(c.puntos)))
+            x1,y1 = gr.generateGrid(10,-10,10,-10,0.025)
+            gr.drawContour(x1,y1,[c.mean[0], c.mean[1]], [[c.desv_estandar[0],0.2],[0.2, c.desv_estandar[1]]],10, color = 'k')
         gr.pintar_puntos(clusters, cant_clusters)
 
+    return c.mean, c.desv_estandar, c.pi, c.puntos, clusters
 
 
 
