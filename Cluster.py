@@ -23,6 +23,7 @@ class Cluster:
         self.mean = np.mean(coordenadas_ac, axis=0)
         self.desv_estandar = np.std(coordenadas_ac, axis=0)
         #self.desv_estandar = np.std(coordenadas_ac, axis=0, ddof=0)
+
         self.pi = len(puntos)/ float(puntos_totales)
         print "prob updateada ", self.pi
         self.converge = np.array_equal(prev_media, self.mean)

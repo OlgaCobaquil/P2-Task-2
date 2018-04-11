@@ -6,6 +6,7 @@ from Cluster import Cluster
 import Graficar as gr
 import imageio
 imagenes = []
+lista_contour = ['r', 'olivedrab', 'orangered', 'teal', 'goldenrod','indigo', 'darkmagenta']
 lista_colores = ['lightcoral', 'yellowgreen', 'darkorange', 'turquoise', 'gold','mediumorchid', 'mediumvioletred']
 #Leer el archivo de entrada
 def abrir_archivo():
@@ -53,19 +54,25 @@ def prob_punto_cluster(punto, cluster):
                 math.pow(desv[i], 2))) / desv[i])
 
     #normalizar eij/R
+
     return cluster.pi * prob
 
 """
     Cluster con mayor probablidad
 """
 def cluster_prob_mayor(clusters, punto):
-
+    #R inicializada R = 0.0
     expectation = np.zeros(len(clusters))
     for i, c in enumerate(clusters):
 
         expectation[i] = prob_punto_cluster(punto, c)
 
     return np.argmax(expectation) #devuelve el indice maximo
+
+def distancia_entre_puntos(x1,y1, x2,y2):
+    result = math.sqrt(((x2-x1)**2) + ((y2-y1)**2))
+    return result
+
 
 def expectation_maximization( data, cant_clusters, iteraciones):
 
@@ -105,13 +112,20 @@ def expectation_maximization( data, cant_clusters, iteraciones):
         print '\nIteracion %d' % limite_iteraciones
         for i, c in enumerate(clusters):
 
-            print 'Cluster %d:  \n \tProbabilidad = %s; \n \tMedia = %s; \n \tDesv. Estandar = %s; \n \tTotal Puntos Actuales = %s' % (
-                i + 1, str(c.pi), str(c.mean), str(c.desv_estandar), str(len(c.puntos)))
+            #print 'Cluster %d:  \n \tProbabilidad = %s; \n \tMedia = %s; \n \tDesv. Estandar = %s; \n \tTotal Puntos Actuales = %s' % (
+                #i + 1, str(c.pi), str(c.mean), str(c.desv_estandar), str(len(c.puntos)))
             x1,y1 = gr.generateGrid(10,-10,10,-10,0.025)
-            gr.drawContour(x1,y1,[c.mean[0], c.mean[1]], [[c.desv_estandar[0],0.2],[0.2, c.desv_estandar[1]]],10, color = 'k')
+            gr.drawContour(x1,y1,[c.mean[0], c.mean[1]], [[c.desv_estandar[0],0.2],[0.2, c.desv_estandar[1]]],10, color = lista_contour[i])
         gr.pintar_puntos(clusters, cant_clusters)
 
-    return c.mean, c.desv_estandar, c.pi, c.puntos, clusters
+    print "+----------------------------------------------------+"
+    print "         Punto perteneciente a un cluster"
+    print "+----------------------------------------------------+ \n"
+    x = float(input("    -> Coordenada x del punto: "))
+    y = float(input("    -> Coordenada y del punto: "))
+
+
+    #return c.mean, c.desv_estandar, c.pi, c.puntos, clusters
 
 
 
